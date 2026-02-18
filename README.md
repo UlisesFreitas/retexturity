@@ -5,6 +5,7 @@
 
 [![Blender Version](https://img.shields.io/badge/Blender-5.0%2B-orange?style=for-the-badge&logo=blender)](https://www.blender.org/)
 [![ComfyUI Compatible](https://img.shields.io/badge/ComfyUI-Compatible-blue?style=for-the-badge)](https://github.com/comfyanonymous/ComfyUI)
+[![Trellis2 Compatible](https://img.shields.io/badge/Trellis2-Compatible-blue?style=for-the-badge)](https://github.com/microsoft/TRELLIS)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.5.0-purple?style=for-the-badge)]()
 
@@ -74,11 +75,14 @@ The addon exposes exposed parameters from your workflow directly in the UI.
 -   When finished, a sound will play.
 -   Click **Import Result** to bring the generated Image or 3D Model into your scene.
 
-## ⚙️ Preferences
-In the Addon Preferences, you can configure:
--   **ComfyUI URL**: Default is `http://127.0.0.1:8188`.
--   **Output Paths**: Where temporary and final files are stored.
--   **Notifications**: Enable/Disable sound effects.
+## ⚙️ Configuration
+Before starting, you **MUST** configure the addon settings:
+
+1.  Go to **Edit > Preferences > Add-ons**.
+2.  Search for **Retexturity** and expand the preferences.
+3.  **ComfyUI Path**: Select the root folder of your local ComfyUI installation.
+4.  **Trellis Output**: Select the folder where you want **TRELLIS2** generated 3D models to be saved.
+5.  **ComfyUI URL**: Ensure the URL matches your running instance (Default: `http://127.0.0.1:8188`).
 
 ---
 
