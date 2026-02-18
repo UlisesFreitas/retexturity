@@ -223,55 +223,7 @@ class RetexturityNodeState(bpy.types.PropertyGroup):
     group_name: bpy.props.StringProperty() # For grouping in UI
     is_expanded: bpy.props.BoolProperty(default=True)
 
-class RetexturityProperties(bpy.types.PropertyGroup):
-    # We use the preferences for URL, but keep a property here if user wants to override per scene?
-    # For now, let's just read from prefs in operators to avoid confusion.
-    # But UI needs to show something. Let's redirect UI to prefs.
-    
-    workflow_file: bpy.props.StringProperty(
-        name="Workflow JSON",
-        subtype='FILE_PATH',
-        description="Path to the API-formatted ComfyUI workflow JSON"
-    )
 
-    workflow_list: bpy.props.EnumProperty(
-        name="Select Workflow",
-        description="Select a workflow from the addons 'workflows' folder",
-        items=get_workflow_items,
-        update=update_workflow_list
-    )
-    
-    # Internal storage for the loaded JSON structure stringified
-    cached_nodes_json: bpy.props.StringProperty()
-    full_workflow_json: bpy.props.StringProperty()
-
-    input_node_id: bpy.props.EnumProperty(
-        name="Input Node",
-        description="Select the 'Load Image' node to receive Blender's render",
-        items=get_node_items
-    )
-    
-    output_node_id: bpy.props.EnumProperty(
-        name="Output Node",
-        description="Select the 'Save' node that produces the result (Mesh or Image)",
-        items=get_node_items
-    )
-    
-    # Collection of Exposed Parameters
-    node_params: bpy.props.CollectionProperty(type=RetexturityNodeParam)
-    
-    # Collection of Node UI States (Collapsible)
-    node_states: bpy.props.CollectionProperty(type=RetexturityNodeState)
-
-    is_generating: bpy.props.BoolProperty(
-        name="Is Generating",
-        default=False
-    )
-    
-    # Stores the path to the pending result for manual import
-    latest_generated_filepath: bpy.props.StringProperty(
-        subtype='FILE_PATH'
-    )
 
 # ------------------------------------------------------------------------
 # Operators
@@ -459,6 +411,57 @@ def update_workflow_list(self, context):
         self.workflow_file = filepath
     else:
         print(f"[Retexturity] Auto-load failed: {msg}")
+
+
+class RetexturityProperties(bpy.types.PropertyGroup):
+    # We use the preferences for URL, but keep a property here if user wants to override per scene?
+    # For now, let's just read from prefs in operators to avoid confusion.
+    # But UI needs to show something. Let's redirect UI to prefs.
+    
+    workflow_file: bpy.props.StringProperty(
+        name="Workflow JSON",
+        subtype='FILE_PATH',
+        description="Path to the API-formatted ComfyUI workflow JSON"
+    )
+
+    workflow_list: bpy.props.EnumProperty(
+        name="Select Workflow",
+        description="Select a workflow from the addons 'workflows' folder",
+        items=get_workflow_items,
+        update=update_workflow_list
+    )
+    
+    # Internal storage for the loaded JSON structure stringified
+    cached_nodes_json: bpy.props.StringProperty()
+    full_workflow_json: bpy.props.StringProperty()
+
+    input_node_id: bpy.props.EnumProperty(
+        name="Input Node",
+        description="Select the 'Load Image' node to receive Blender's render",
+        items=get_node_items
+    )
+    
+    output_node_id: bpy.props.EnumProperty(
+        name="Output Node",
+        description="Select the 'Save' node that produces the result (Mesh or Image)",
+        items=get_node_items
+    )
+    
+    # Collection of Exposed Parameters
+    node_params: bpy.props.CollectionProperty(type=RetexturityNodeParam)
+    
+    # Collection of Node UI States (Collapsible)
+    node_states: bpy.props.CollectionProperty(type=RetexturityNodeState)
+
+    is_generating: bpy.props.BoolProperty(
+        name="Is Generating",
+        default=False
+    )
+    
+    # Stores the path to the pending result for manual import
+    latest_generated_filepath: bpy.props.StringProperty(
+        subtype='FILE_PATH'
+    )
 
 class RETEXTURITY_OT_generate(bpy.types.Operator):
     """Send render to ComfyUI and retrieve result (Non-Blocking)"""
