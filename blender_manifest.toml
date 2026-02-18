@@ -1,0 +1,17 @@
+schema_version = "1.0.0"
+id = "retexturity"
+version = "1.5.0"
+name = "Retexturity"
+tagline = "ComfyUI and TRELLIS.2 Retexture"
+maintainer = "UlisesFreitas"
+type = "add-on"
+blender_version_min = "5.0.1"
+license = ["MIT"]
+platforms = ["windows-x64"]
+
+[permissions]
+network = "Required to connect with ComfyUI and TRELLIS.2 API"
+files = "Required to save temporary renders and read generated models"
+
+[build]
+include = ["*.py", "nodes/*.py", "resources/*"]

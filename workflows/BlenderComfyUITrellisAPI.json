@@ -1,0 +1,126 @@
+{
+  "6": {
+    "inputs": {
+      "image": "female-1-front.png"
+    },
+    "class_type": "Trellis2LoadImageWithTransparency",
+    "_meta": {
+      "title": "Load image : Trellis2 - Load Image with Transparency"
+    }
+  },
+  "10": {
+    "inputs": {
+      "model_file": [
+        "19",
+        0
+      ],
+      "image": ""
+    },
+    "class_type": "Preview3D",
+    "_meta": {
+      "title": "Export : Preview 3D & Animation"
+    }
+  },
+  "19": {
+    "inputs": {
+      "filename_prefix": "Trellis2Mesh",
+      "file_format": "glb",
+      "save_file": true,
+      "trimesh": [
+        "43",
+        0
+      ]
+    },
+    "class_type": "Trellis2ExportMesh",
+    "_meta": {
+      "title": "Export : Trellis2 - Export Mesh"
+    }
+  },
+  "39": {
+    "inputs": {
+      "modelname": "TRELLIS.2-4B",
+      "backend": "flash_attn",
+      "device": "cuda",
+      "low_vram": true,
+      "keep_models_loaded": false
+    },
+    "class_type": "Trellis2LoadModel",
+    "_meta": {
+      "title": "Load model : Trellis2 - LoadModel"
+    }
+  },
+  "41": {
+    "inputs": {
+      "seed": 2101172905,
+      "pipeline_type": "1024_cascade",
+      "sparse_structure_steps": 10,
+      "shape_steps": 10,
+      "texture_steps": 10,
+      "max_num_tokens": 999999,
+      "max_views": 8,
+      "sparse_structure_resolution": 32,
+      "generate_texture_slat": true,
+      "use_tiled_decoder": true,
+      "pipeline": [
+        "39",
+        0
+      ],
+      "image": [
+        "44",
+        0
+      ]
+    },
+    "class_type": "Trellis2MeshWithVoxelGenerator",
+    "_meta": {
+      "title": "Mesh generator : Trellis2 - Mesh With Voxel Generator"
+    }
+  },
+  "43": {
+    "inputs": {
+      "mesh_cluster_threshold_cone_half_angle_rad": 60,
+      "mesh_cluster_refine_iterations": 0,
+      "mesh_cluster_global_iterations": 1,
+      "mesh_cluster_smooth_strength": 1,
+      "texture_size": 1024,
+      "remesh": true,
+      "remesh_band": 1,
+      "remesh_project": 0,
+      "target_face_num": 10000,
+      "simplify_method": "Cumesh",
+      "fill_holes": true,
+      "texture_alpha_mode": "OPAQUE",
+      "dual_contouring_resolution": "1024",
+      "double_side_material": false,
+      "remove_floaters": true,
+      "bake_on_vertices": false,
+      "use_custom_normals": false,
+      "remove_inner_faces": true,
+      "mesh": [
+        "41",
+        0
+      ],
+      "bvh": [
+        "41",
+        1
+      ]
+    },
+    "class_type": "Trellis2PostProcessAndUnWrapAndRasterizer",
+    "_meta": {
+      "title": "Mesh generator : Trellis2 - Post Process/UnWrap and Rasterize"
+    }
+  },
+  "44": {
+    "inputs": {
+      "padding": 0,
+      "remove_background": false,
+      "image": [
+        "6",
+        2
+      ]
+    },
+    "class_type": "Trellis2PreProcessImage",
+    "_meta": {
+      "title": "Load image : Trellis2 - PreProcess Image"
+    }
+  }
+}

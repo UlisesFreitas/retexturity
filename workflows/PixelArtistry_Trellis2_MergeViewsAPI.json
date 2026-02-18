@@ -1,0 +1,303 @@
+{
+  "1": {
+    "inputs": {
+      "image": "auHd2s9RBS9aTFUesaxcz_93c7ec6113f241c48cbc6fd8260dca4c.jpg"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image": "9wwszOVuQALtMuvrOrt30_1c09471cee1d4c93a141ae00b0b4a66e.jpg"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "3": {
+    "inputs": {
+      "padding": 0,
+      "remove_background": true,
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "Trellis2PreProcessImage",
+    "_meta": {
+      "title": "Trellis2 - PreProcess Image"
+    }
+  },
+  "4": {
+    "inputs": {
+      "padding": 0,
+      "remove_background": true,
+      "image": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "Trellis2PreProcessImage",
+    "_meta": {
+      "title": "Trellis2 - PreProcess Image"
+    }
+  },
+  "5": {
+    "inputs": {
+      "inputcount": 2,
+      "Update inputs": null,
+      "image_1": [
+        "3",
+        0
+      ],
+      "image_2": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "ImageBatchMulti",
+    "_meta": {
+      "title": "Image Batch Multi"
+    }
+  },
+  "7": {
+    "inputs": {
+      "modelname": "TRELLIS.2-4B",
+      "backend": "flash_attn",
+      "device": "cuda",
+      "low_vram": true,
+      "keep_models_loaded": true
+    },
+    "class_type": "Trellis2LoadModel",
+    "_meta": {
+      "title": "Trellis2 - LoadModel"
+    }
+  },
+  "8": {
+    "inputs": {
+      "seed": 1772591737,
+      "pipeline_type": "1024_cascade",
+      "sparse_structure_steps": 12,
+      "sparse_structure_guidance_strength": 6.5,
+      "sparse_structure_guidance_rescale": 0.2,
+      "sparse_structure_rescale_t": 4,
+      "shape_steps": 12,
+      "shape_guidance_strength": 6.5,
+      "shape_guidance_rescale": 0.2,
+      "shape_rescale_t": 4,
+      "texture_steps": 12,
+      "texture_guidance_strength": 3,
+      "texture_guidance_rescale": 0.2,
+      "texture_rescale_t": 3,
+      "max_num_tokens": 999999,
+      "max_views": 4,
+      "sparse_structure_resolution": 32,
+      "generate_texture_slat": true,
+      "sparse_structure_guidance_interval_start": 0.1,
+      "sparse_structure_guidance_interval_end": 1,
+      "shape_guidance_interval_start": 0.1,
+      "shape_guidance_interval_end": 1,
+      "texture_guidance_interval_start": 0,
+      "texture_guidance_interval_end": 0.9,
+      "use_tiled_decoder": true,
+      "pipeline": [
+        "7",
+        0
+      ],
+      "image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "Trellis2MeshWithVoxelAdvancedGenerator",
+    "_meta": {
+      "title": "Trellis2 - Mesh With Voxel Advanced Generator"
+    }
+  },
+  "9": {
+    "inputs": {
+      "UNKNOWN": true,
+      "mesh": [
+        "8",
+        0
+      ]
+    },
+    "_meta": {}
+  },
+  "10": {
+    "inputs": {
+      "target_face_num": 2000000,
+      "method": "Cumesh",
+      "mesh": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "Trellis2SimplifyMesh",
+    "_meta": {
+      "title": "Trellis2 - Simplify Mesh"
+    }
+  },
+  "11": {
+    "inputs": {
+      "mesh": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "Trellis2FillHolesWithMeshlib",
+    "_meta": {
+      "title": "Trellis2 - Fill Holes with Meshlib"
+    }
+  },
+  "12": {
+    "inputs": {
+      "reorient_vertices": "90 degrees",
+      "mesh": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "Trellis2MeshWithVoxelToTrimesh",
+    "_meta": {
+      "title": "Trellis2 - Mesh With Voxel To Trimesh"
+    }
+  },
+  "14": {
+    "inputs": {
+      "value": "womanWings"
+    },
+    "class_type": "PrimitiveString",
+    "_meta": {
+      "title": "String"
+    }
+  },
+  "15": {
+    "inputs": {
+      "filename_prefix": [
+        "16",
+        0
+      ],
+      "file_format": "glb",
+      "save_file": true,
+      "trimesh": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "Trellis2ExportMesh",
+    "_meta": {
+      "title": "Trellis2 - Export Mesh"
+    }
+  },
+  "16": {
+    "inputs": {
+      "string_a": [
+        "14",
+        0
+      ],
+      "string_b": "Refined",
+      "delimiter": "_"
+    },
+    "class_type": "StringConcatenate",
+    "_meta": {
+      "title": "Concatenate"
+    }
+  },
+  "17": {
+    "inputs": {
+      "input_1": [
+        "12",
+        0
+      ],
+      "input_2": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "Trellis2Continue",
+    "_meta": {
+      "title": "Trellis2 - Continue"
+    }
+  },
+  "18": {
+    "inputs": {
+      "filename_prefix": [
+        "19",
+        0
+      ],
+      "file_format": "glb",
+      "save_file": true,
+      "trimesh": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "Trellis2ExportMesh",
+    "_meta": {
+      "title": "Trellis2 - Export Mesh"
+    }
+  },
+  "19": {
+    "inputs": {
+      "string_a": "",
+      "string_b": "Textured",
+      "delimiter": "_"
+    },
+    "class_type": "StringConcatenate",
+    "_meta": {
+      "title": "Concatenate"
+    }
+  },
+  "20": {
+    "inputs": {
+      "seed": 12345,
+      "texture_steps": 12,
+      "texture_guidance_strength": 3,
+      "texture_guidance_rescale": 0.2,
+      "texture_rescale_t": 3,
+      "resolution": 1024,
+      "texture_size": 4096,
+      "texture_alpha_mode": "OPAQUE",
+      "double_side_material": false,
+      "texture_guidance_interval_start": 0,
+      "texture_guidance_interval_end": 0.9,
+      "max_views": 4,
+      "bake_on_vertices": false,
+      "use_custom_normals": false,
+      "mesh_cluster_threshold_cone_half_angle_rad": 60,
+      "pipeline": [
+        "7",
+        0
+      ],
+      "image": [
+        "5",
+        0
+      ],
+      "trimesh": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "Trellis2MeshTexturing",
+    "_meta": {
+      "title": "Trellis2 - Mesh Texturing"
+    }
+  },
+  "21": {
+    "inputs": {
+      "model_file": [
+        "18",
+        0
+      ],
+      "image": ""
+    },
+    "class_type": "Preview3D",
+    "_meta": {
+      "title": "Preview 3D & Animation"
+    }
+  }
+}
